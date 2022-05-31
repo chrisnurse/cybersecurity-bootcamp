@@ -30,6 +30,10 @@ The following links are useful to gain a deeper understanding of ELK, Beats and 
 [Metricbeat](https://www.elastic.co/beats/metricbeat)
 
 
+# Resources
+
+Please refer to the `AnsibleResources` folder for the playbooks which will assist in establishing `ELK`, `Filebeat` and `Metricbeat`.
+
 # Overview of the Azure Deployment
 
 The following diagram provides a simple visual context for the entire Azure deployment, of which ELK is just a single capability.
@@ -251,41 +255,82 @@ This document contains the following details:
 
 
 
-### Elk Configuration
+## Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
+
 - _TODO: What is the main advantage of automating configuration with Ansible?_
 
+Ansible enables us to repeatedly and consistently deploy capabilities to groups of servers, and by automating such activities which avoid manual labour, so we can rapidly deploy at scale.
+
+
 The playbook implements the following tasks:
+
 - _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+
+- Ensure that the memory capacity is adjusted in like with ELK container requirements
+- Install docker
+- Install PIP
+- Install Python module for docker
+- Configure the docker container, particularly to configure ports
+- Ensure that docker launches when the host machine is booted
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
+![TODO: Update the path with the name of your screenshot of docker ps output](Images/elk_docker_ps.jpg)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
 - _TODO: List the IP addresses of the machines you are monitoring_
 
+- Webserver1 : 10.10.0.7
+- Webserver2 : 10.10.0.8
+
 We have installed the following Beats on these machines:
 - _TODO: Specify which Beats you successfully installed_
+
+- Filebeat
+- Metricbeat
+
+Please refer to the sections above for further detail.
 
 These Beats allow us to collect the following information from each machine:
 - _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
 
-### Using the Playbook
-In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
+`Filebeat` collects events from key system logs, such as authentication events, and the events are then read from the local logs and forward to the central ELK server to enable centralised monitoring and alerting.
 
-SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
+`Metricbeat` amongst other things, collects measurements of resource utilisation, and forwards data to the central ELK server to enable centralised monitoring and alerting. For example, it is possible to centrally see the CPU and RAM utilisation on the load balanced web servers, to ensure they are not under too much load from regular users, or under attack from hackers.
+
+Please refer to the sections above for further detail.
+
+
+### Using the Playbook
 
 _TODO: Answer the following questions to fill in the blanks:_
 - _Which file is the playbook? Where do you copy it?_
 - _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
 - _Which URL do you navigate to in order to check that the ELK server is running?
 
+In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
+
+SSH into the control node and follow the steps below:
+- Copy the ELK and Beats playbook files to /etc/ansible.
+- Update the Ansible configuration to include the web server IP addresses in a `WebServers` group.
+- Update the Ansible configuration to include the ELK server IP address in a `ELKServers` group.
+- Run the playbook, and navigate to http://your_Kibana_ip:5601 to check that the installation worked as expected. You should see the Kibana dashboards and quickly see incoming data from both webservers, transmitted by Filebeat and Metricbeat.
+
+
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+
+Once his repository has been cloned, simply copy the `.yml` files, which are the Ansible playbooks, to the /etc/ansible directory, where they can then be executed. 
+
+It will also be necessary to create config files for Filebeat and Metric beat. These config files are also located in the `AnsibleResources` folder.
+
+### Ansible Resources
+
+[ELK playbook](AnsibleResources/install-elk.yml)
+[Filebeat playbook](AnsibleResources/filebeat-play.yml)
+[Metricbeat playbook](AnsibleResources/metricbeat-play.yml)
+[Filebeat configuration](AnsibleResources/filebeat-config.yml)
+[Metricbeat configuration](AnsibleResources/metricbeat-config.yml)
+
