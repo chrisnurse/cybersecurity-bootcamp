@@ -29,6 +29,11 @@ The following links are useful to gain a deeper understanding of ELK, Beats and 
 
 [Metricbeat](https://www.elastic.co/beats/metricbeat)
 
+## Proof of functionality
+
+The following video is a very quick demo to show that the Kibana dashboard is functioning and has been loaded with demo data.
+
+[Demo from my Kibana installation](Images/ELK_Demo.mp4)
 
 # Resources
 
