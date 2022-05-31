@@ -322,7 +322,7 @@ SSH into the control node and follow the steps below:
 
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
 
-Once his repository has been cloned, simply copy the `.yml` files, which are the Ansible playbooks, to the /etc/ansible directory, where they can then be executed. 
+Once this repository has been cloned, simply copy the `.yml` files, which are the Ansible playbooks, to the /etc/ansible directory, where they can then be executed. 
 
 It will also be necessary to create config files for Filebeat and Metric beat. These config files are also located in the `AnsibleResources` folder.
 
